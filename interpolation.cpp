@@ -32,7 +32,6 @@ int interpolate(PNG_Canvas_BW& image, double x, double y){
 void process_image(PNG_Canvas_BW& image, string filename, int new_width = -1, int new_height = -1){
 	width = image.get_width();
 	height = image.get_height();
-    cout<<width<<endl<<height<<endl;
     if(new_width < 0) new_width = 3*width;
     if(new_height < 0) new_height = 3*height;
     double ratio_x = (double)width / new_width;
