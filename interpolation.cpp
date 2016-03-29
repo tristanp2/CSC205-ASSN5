@@ -17,10 +17,7 @@
 using namespace std;
 int width;
 int height;
-bool oob_check(int n, int max){
-    if(n<0 or n>=max) return 128;
-    else return n;
-}
+
 int interpolate(PNG_Canvas_BW& image, double x, double y){
     int x0 = floor(x);
     int y0 = floor(y);
@@ -43,13 +40,12 @@ void process_image(PNG_Canvas_BW& image, string filename, int new_width = -1, in
     PNG_Canvas_BW output_image(new_width, new_height); 
     
     for(int i=0; i<new_width; i++){
-        for(int j=0; j<new_width; j++){
-            
+        for(int j=0; j<new_height; j++){
             output_image[i][j] = interpolate(image, ratio_x*i, ratio_y*j);
         }
     }
 
-    output_image.save_image(filename);
+    image = output_image;    
 }
 
 
@@ -71,7 +67,6 @@ int main(int argc, char** argv){
          process_image(canvas, output_filename, strtol(argv[3],NULL,10), strtol(argv[4],NULL,10));
     }
     else process_image(canvas, output_filename);
-//  something odd is happening here for certain output sizes
-//	canvas.save_image(output_filename);
+	canvas.save_image(output_filename);
     return 0;
 }
