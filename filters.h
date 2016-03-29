@@ -69,4 +69,50 @@ private:
         filter[size/2][size/2] = 0;
     }
 };
+class RippleTransform{
+public:
+    RippleTransform(int tx, int ty, int ax, int ay){
+        this->tx = tx;
+        this->ty = ty;
+        this->ax = ax;
+        this->ay = ay;
+    }
+    double tix(int xp, int yp){
+        return (double)xp + (double)ax*sin(2*M_PI*yp/tx);
+    }
+    double tiy(int xp, int yp){
+        return (double)yp + (double)ay*sin(2*M_PI*xp/ty);
+    }
+private:
+    int tx, ty, ax, ay;
+};
+class TwirlyTransform{
+public:
+    TwirlyTransform(int rmax, int xc, int yc, int alpha){
+        this->rmax = rmax;
+        this->xc = xc;
+        this->yc = yc;
+        this->alpha = (double)alpha*M_PI/180;
+        cout<<alpha<<endl;
+    }
+    double tix(int xp, int yp){
+        int dx = xp - xc, dy = yp - yc;
+        double r = sqrt(dx*dx + dy*dy);
+        if(r > rmax)    return xp;
+
+        double beta = atan2(dy,dx) + alpha*((rmax - r)/rmax); 
+        return xc + r*cos(beta);
+    }
+    double tiy(int xp, int yp){
+        int dx = xp - xc, dy = yp - yc;
+        double r = sqrt(dx*dx + dy*dy);
+        if(r > rmax)    return yp;
+
+        double beta = atan2(dy,dx) + alpha*((rmax - r)/rmax); 
+        return yc + r*sin(beta);
+    }
+private:
+    int rmax, xc, yc;
+    double alpha;
+};
 #endif
