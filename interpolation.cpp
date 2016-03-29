@@ -32,7 +32,7 @@ int interpolate(PNG_Canvas_BW& image, double x, double y){
     double p1 = (double)((x0>=width or y1>=height)? 128:image[x0][y1])*(1 - xs) + (double)((x1>=width or y1>=height)? 128:image[x1][y1])*xs;
     return p0*(1 - ys) + p1*ys;
 }
-void process_image(PNG_Canvas_BW& image, int new_width = -1, int new_height = -1){
+void process_image(PNG_Canvas_BW& image, string filename, int new_width = -1, int new_height = -1){
 	width = image.get_width();
 	height = image.get_height();
     cout<<width<<endl<<height<<endl;
@@ -49,7 +49,7 @@ void process_image(PNG_Canvas_BW& image, int new_width = -1, int new_height = -1
         }
     }
 
-    image = output_image;
+    output_image.save_image(filename);
 }
 
 
@@ -68,9 +68,10 @@ int main(int argc, char** argv){
 		return 0;
 	}
     if(argc == 5){
-         process_image(canvas, strtol(argv[3],NULL,10), strtol(argv[4],NULL,10));
+         process_image(canvas, output_filename, strtol(argv[3],NULL,10), strtol(argv[4],NULL,10));
     }
-    else process_image(canvas);
-	canvas.save_image(output_filename);
+    else process_image(canvas, output_filename);
+//  something odd is happening here for certain output sizes
+//	canvas.save_image(output_filename);
     return 0;
 }
